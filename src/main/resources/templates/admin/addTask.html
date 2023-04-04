@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/dashboard.html}">
+<head>
+</head>
+
+<body>
+<div layout:fragment="content" class="container my-4"
+     style="min-height: 600px; border: 1px solid rgba(128, 128, 128, 0.212);">
+    <div class="row">
+        <div class="col">
+            <form th:action="@{/task}" method="get">
+
+                <button class="btn btn-primary float-right m-3" >Danh sách Nhân Sự</button>
+            </form>
+
+        </div>
+    </div>
+    <div class="row">
+        <form th:action="@{/task/saveOrUpdate}" method="post" class="col" th:object="${task}">
+            <div class="row">
+                <div class="col-6 offset-3">
+                   <div class="form-group" hidden  >
+                        <label >Mã ID</label>
+                        <input  type="text" class="form-control"  th:field="*{task_id}"   >
+                    </div>
+                    <div class="form-group">
+                        <label >Họ và tên</label>
+                        <input type="text" class="form-control" th:field="*{title}"  >
+                       <small th:if="${#fields.hasErrors('title')}" class="text-danger">Hãy nhập đúng tên nhân sự</small>
+                        <small th:if="${error}" th:text="${error}" class="text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label >Địa chỉ</label>
+                        <input type="text" class="form-control" th:field="*{address}"  >
+                        <small th:if="${#fields.hasErrors('address')}" class="text-danger">Hãy nhập đúng address</small>
+                        <small th:if="${error}" th:text="${error}" class="text-danger"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phòng ban</label>
+                        <input type="text" class="form-control" th:field="*{description}"  >
+                        <small th:if="${#fields.hasErrors('description')}"
+                               class="text-danger">Hãy nhập phòng ban</small>
+                    </div>
+
+                    <div class="form-group"  >
+                        <label >Chức vụ:</label>
+                        <select class="form-control" th:field="*{taskStatus.id}" >
+                            <option  th:each="item : ${TaskStatus}"
+                                     th:value="${item.id}"
+                                     th:text="${item.name}"></option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+            </div>
+          <div class="row">
+                <div class="col-6 offset-3">
+                   <input type="submit" value="Cập nhật" class="btn btn-primary" th:if="${task_id > 0}" >
+                    <input type="submit" value="Thêm mới" class="btn btn-primary" th:if="${task_id <= 0}" >
+
+                  <!--  <button class="btn btn-success ml-2" formaction="/admin/categories/reset" formmethod="post">Làm mới</button>-->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
